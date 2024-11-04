@@ -16,8 +16,8 @@ pprint(os.environ)
 # Mastodonのクライアント生成
 client = Mastodon(api_base_url = os.environ['API_BASE_URL'], access_token = os.environ['ACCESS_TOKEN'])
 
-# 連合タイムラインをListenするためのクラスを定義
-class PublicStreamListener(StreamListener):
+# タイムラインをListenするためのクラスを定義
+class ExStreamListener(StreamListener):
 
     # 引数に生成したMastodonのクライアントが必須
     def __init__(self, client):
@@ -73,10 +73,10 @@ class PublicStreamListener(StreamListener):
             pass
 
 # 連合タイムラインのListenerを生成            
-public_stream_listener = PublicStreamListener(client)
+stream_listener = ExStreamListener(client)
 
 # 連合タイムラインをListen
 while True:
-    client.stream_public(public_stream_listener, remote=True)
-    print("restart litening client.stream_public")
+    client.stream_user(stream_listener)
+    print("restart litening...")
     sleep(10)
